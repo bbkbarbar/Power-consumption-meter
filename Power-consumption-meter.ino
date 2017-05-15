@@ -4,13 +4,18 @@
 
 #define I2C_ADDRESS_OF_DISPLAY  0x3C  // 0X3C+SA0 - 0x3C or 0x3D
 
-#define EMON_INPUT_PIN          A0
+#define AC_VOLTAGE             230.0
+#define COST_PER_KWH            44.0
+
+#define HOURS_IN_A_MONTH         730
+
+#define EMON_INPUT_PIN            A0
 // calibration_value = ( i(measured) / i(sensor) ) / R(burden)
 // calibration_value = ( i(measured) / i(sensor) ) / 33R)
 #define EMON_CALIBRATION_VALUE  13.3
 
 
-#define AVG_SIZE                 3
+#define AVG_SIZE                   3
 
 EnergyMonitor emon1;
 SSD1306AsciiAvrI2c oled;
@@ -48,10 +53,14 @@ void loop() {
     avgValue += (emon1.calcIrms(2000));
   }
   avgValue /= AVG_SIZE;
-  
+
+  double power = (avgValue * AC_VOLTAGE);
+  double cost = (power * COST_PER_KWH) / 1000;
   
   oled.clear();
   oled.println("I: " + String(avgValue) + " A\n"); 
-  oled.println("P: " + (String( int((avgValue*230.0)+0.5))) + " W");         // Apparent power
+  oled.println("P: " + (String( int(power+0.5))) + " W");         // Apparent power
+  oled.println((String( int(cost+0.5))) + " Ft / h");         // Energy cost / hour
+  oled.println((String( int((cost * HOURS_IN_A_MONTH)+0.5))) + " Ft");         // Energy cost / hour
 
 }
