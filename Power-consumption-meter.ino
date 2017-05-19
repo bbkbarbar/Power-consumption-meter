@@ -10,9 +10,9 @@
 #define HOURS_IN_A_MONTH         730
 
 #define EMON_INPUT_PIN            A0
-// calibration_value = ( i(measured) / i(sensor) ) / R(burden)
-// calibration_value = ( i(measured) / i(sensor) ) / 33R)
-#define EMON_CALIBRATION_VALUE  13.3
+
+// Calibration seems fine when tested with 1.96A consumption with calibration_value: 13.15
+#define EMON_CALIBRATION_VALUE  13.15
 
 
 #define AVG_SIZE                   3
@@ -58,7 +58,7 @@ void loop() {
   double cost = (power * COST_PER_KWH) / 1000;
   
   oled.clear();
-  oled.println("I: " + String(avgValue) + " A\n"); 
+  oled.println("I: " + String(avgValue) + " A"); 
   oled.println("P: " + (String( int(power+0.5))) + " W");         // Apparent power
   oled.println((String( int(cost+0.5))) + " Ft / h");         // Energy cost / hour
   oled.println((String( int((cost * HOURS_IN_A_MONTH)+0.5))) + " Ft");         // Energy cost / hour
