@@ -12,7 +12,7 @@
 #define EMON_INPUT_PIN            A0
 
 // Calibration seems fine when tested with 1.96A consumption with calibration_value: 13.15
-#define EMON_CALIBRATION_VALUE  13.15
+#define EMON_CALIBRATION_VALUE  13.35
 
 
 #define AVG_SIZE                   3
