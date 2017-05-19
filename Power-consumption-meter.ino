@@ -35,6 +35,21 @@ void setup() {
   }/**/
 }
 
+void show(double currentInA, double power){
+  double cost = (power * COST_PER_KWH) / 1000;
+  
+  oled.clear();
+  oled.println("I: " + String(currentInA) + " A");                       // Current 
+
+  oled.println("P: " + (String( int(power+0.5))) + " W");                // Apparent power
+  /*
+  oled.set1X();
+  oled.println((String( int(cost+0.5))) + " Ft / h");                    // Energy cost / hour
+  oled.set2X();
+  /**/
+  oled.println("\n" + (String( int((cost * HOURS_IN_A_MONTH)+0.5))) + " Ft");   // Energy cost / month
+}
+
 int ptr = 0;
 
 void loop() {
@@ -55,12 +70,7 @@ void loop() {
   avgValue /= AVG_SIZE;
 
   double power = (avgValue * AC_VOLTAGE);
-  double cost = (power * COST_PER_KWH) / 1000;
-  
-  oled.clear();
-  oled.println("I: " + String(avgValue) + " A"); 
-  oled.println("P: " + (String( int(power+0.5))) + " W");         // Apparent power
-  oled.println((String( int(cost+0.5))) + " Ft / h");         // Energy cost / hour
-  oled.println((String( int((cost * HOURS_IN_A_MONTH)+0.5))) + " Ft");         // Energy cost / hour
+
+  show(avgValue, power);
 
 }
